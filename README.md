@@ -1,4 +1,5 @@
 # Goedel
+
 Generate activerecord create statements from activerecord data
 
 ## Installation
@@ -23,24 +24,48 @@ Or install it yourself as:
 # assume User is active record model with `id`, `email`, `name`, and `address`
 last_user = User.last
 
-Goedel.goedel(
-  model: "User",
-  excludes: ["created_at", "updated_at"]
-  data: last_user
-)
-# will print out activerecord create statement which generated this data
+pp last_user.attributes
+=> {
+     "id" => 123,
+     "created_at" => Tue, 22 Dec 2015 08:34:14 UTC +00:00,
+     "updated_at" => Tue, 22 Dec 2015 08:34:14 UTC +00:00,
+     "email" => "goedel@incompleteness.com"
+   }
+
+Goedel.goedel(last_user)
+
+# will print out activerecord create statement which can create the data object
 User.create(
+  created_at: Time.zone.parse("2015-22-12 08:34:14"),
+  updated_at: Time.zone.parse("2015-22-12 08:34:14"),
+  id: 123,
+  email: "goedel@incompleteness.com",
+  name: "Goedel"
+)
+
+# and then return it as a string
+=> "User.create(\n  id: 123,\n  email: \"goedel@incompleteness.com\",\n  name: \"Goedel\", \n  address: \"123 Recurse St. Princeton, New Jersey\""
+
+# Not all a record's attributes will show up sometimes, especially those delegated through associations.
+# You can force these attributes to show up
+
+# Suppose that the user's address is delegated to a `home` object
+# `address` would normally not show up as an attribute, but you can
+# force it by adding it in the attributes option like so
+
+Goedel.goedel(last_user, attributes: [:address])
+
+User.create(
+  created_at: Time.zone.parse("2015-22-12 08:34:14"),
+  updated_at: Time.zone.parse("2015-22-12 08:34:14"),
   id: 123,
   email: "goedel@incompleteness.com",
   name: "Goedel", 
-  address: "123 Recurse St. Princeton, New Jersey"
+  address: "123 Incomplete St. Princeton, New Jersey"
 )
-
-# and also return it as a string
-=> "User.create(\n  id: 123,\n  email: \"goedel@incompleteness.com\",\n  name: \"Goedel\", \n  address: \"123 Recurse St. Princeton, New Jersey\""
 ```
 
-#### Compability
+#### Compatability
 
 Tested with ActiveRecord 4.2.1
 

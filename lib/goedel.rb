@@ -1,17 +1,12 @@
-require "pry"
 $:.unshift File.expand_path("../", __FILE__)
-require "goedel/version"
 
 module Goedel
   autoload :VERSION, "goedel/version"
   autoload :Statement, "goedel/statement"
+  autoload :Line, "goedel/line"
 
-  def self.goedel(options)
-    model = options[:model]
-    excludes = options[:excludes]
-    data = options[:data]
-
-    result_string = Goedel::Statement.new(options).generate
+  def self.goedel(object)
+    result_string = Goedel::Statement.new(object).generate
     puts result_string
     result_string
   end
