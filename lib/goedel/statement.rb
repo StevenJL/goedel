@@ -1,16 +1,17 @@
 module Goedel
   class Statement
-    attr_reader :options
+    attr_reader :object, :indent, :force_attributes
 
-    def intialize(options)
-      @options = options
+    def initialize(object, options={})
+      @object = object
+      @force_attributes = options[:force_attributes] || []
       @indent = 2
     end
 
     def generate
       output_array = [model_create]
       model_attributes.each do |prop, val|
-        output_array << attr_line(prop, val)
+        output_array << "#{" "*indent}#{attr_line(prop, val)}"
       end
       output_array << ")"
       output_array.join("\n")
@@ -19,23 +20,21 @@ module Goedel
     private
 
     def attr_line(prop, val)
-      Goedel::Line.new(
-        property: prop,
-        value: val
-       ).generate
-    end
-    
-    def object
-      options[:object]
+      Goedel::Line.new(prop, val).generate
     end
     
     def model_attributes
-      object.attributes
-       
+      obj_attr = object.attributes
+      force_attributes.each do |attr|
+        prop = attr.to_s
+        val = object.send(attr) 
+        obj_attr[prop] = val
+      end
+      obj_attr
     end
 
     def model_create
-      "#{options[:model]}.create("
+      "#{object.class}.create("
     end
   end
 end

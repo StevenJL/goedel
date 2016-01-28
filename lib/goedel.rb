@@ -5,8 +5,8 @@ module Goedel
   autoload :Statement, "goedel/statement"
   autoload :Line, "goedel/line"
 
-  def self.goedel(object)
-    result_string = Goedel::Statement.new(object).generate
+  def self.goedel(object, options={})
+    result_string = Goedel::Statement.new(object, options).generate
     puts result_string
     result_string
   end

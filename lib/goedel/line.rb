@@ -1,4 +1,5 @@
 require "active_support/all"
+require "bigdecimal"
 
 module Goedel
   class Line
@@ -10,7 +11,7 @@ module Goedel
     end
 
     def generate
-      "#{prop}: #{present(val)}"
+      "#{prop}: #{present(val)},"
     end
 
     private
@@ -27,6 +28,8 @@ module Goedel
       elsif val.is_a?(DateTime)
         time_str = val.utc.strftime("%Y-%m-%d %H:%M:%S")
         "DateTime.parse(\"#{time_str}\")"
+      elsif val.is_a?(BigDecimal)
+        "BigDecimal.new(\"#{val.to_f}\")" 
       else
         "#{val}"
       end

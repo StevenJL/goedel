@@ -53,7 +53,7 @@ User.create(
 # `address` would normally not show up as an attribute, but you can
 # force it by adding it in the attributes option like so
 
-Goedel.goedel(last_user, attributes: [:address])
+Goedel.goedel(last_user, force_attributes: [:address])
 
 User.create(
   created_at: Time.zone.parse("2015-22-12 08:34:14"),
