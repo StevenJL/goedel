@@ -74,6 +74,19 @@ Goedel.goedel(
 
 ```
 
+#### Use Case
+
+You can generate seed data with `goedel`
+
+```ruby
+User.all.each do |user|
+  File.open("#{Rails.root}/seed_raw.rb", "a") do 
+    # Use the override_attributes to anonymize user emails in your seed data
+    |file| file.puts Goedel.goedel(user, override_attributes: {"email" => "fake#{user.id}@fake.com"}) 
+  end
+end
+```
+
 #### Compatability
 
 Tested with ActiveRecord 4.2.1
