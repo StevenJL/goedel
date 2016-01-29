@@ -19,6 +19,7 @@ describe Goedel::Statement do
         "id"=>14,
         "name"=>"kurt",
         "email"=>"kurt@incompleteness.com",
+        "ssn" => nil,
         "created_at"=> Time.zone.parse("2015-01-01 12:43:11"),
         "updated_at"=> Time.zone.parse("2015-01-01 12:43:11")
       }
@@ -27,17 +28,17 @@ describe Goedel::Statement do
 
   it "generates create statement for active record object" do
     statement = Goedel::Statement.new(@user).generate
-    expect(statement).to eq("User.create(\n  id: 14,\n  name: \"kurt\",\n  email: \"kurt@incompleteness.com\",\n  created_at: Time.Zone.parse(\"2015-01-01 17:43:11\"),\n  updated_at: Time.Zone.parse(\"2015-01-01 17:43:11\"),\n)")
+    expect(statement).to eq("User.create(\n  id: 14,\n  name: \"kurt\",\n  email: \"kurt@incompleteness.com\",\n  created_at: Time.zone.parse(\"2015-01-01 17:43:11\"),\n  updated_at: Time.zone.parse(\"2015-01-01 17:43:11\"),\n)")
   end
 
   it "generates create statement for active record with force attribute option" do
     statement = Goedel::Statement.new(@user, force_attributes: [:address]).generate
-    expect(statement).to eq("User.create(\n  id: 14,\n  name: \"kurt\",\n  email: \"kurt@incompleteness.com\",\n  created_at: Time.Zone.parse(\"2015-01-01 17:43:11\"),\n  updated_at: Time.Zone.parse(\"2015-01-01 17:43:11\"),\n  address: \"1234 Incomplete St., Princeton, New Jersey\",\n)")
+    expect(statement).to eq("User.create(\n  id: 14,\n  name: \"kurt\",\n  email: \"kurt@incompleteness.com\",\n  created_at: Time.zone.parse(\"2015-01-01 17:43:11\"),\n  updated_at: Time.zone.parse(\"2015-01-01 17:43:11\"),\n  address: \"1234 Incomplete St., Princeton, New Jersey\",\n)")
   end
 
   it "generates create state for active record with override attributes option" do
     statement = Goedel::Statement.new(@user, force_attributes: [:address], override_attributes: {"name" => "Hide My Name"}).generate
-    expect(statement).to eq("User.create(\n  id: 14,\n  name: \"Hide My Name\",\n  email: \"kurt@incompleteness.com\",\n  created_at: Time.Zone.parse(\"2015-01-01 17:43:11\"),\n  updated_at: Time.Zone.parse(\"2015-01-01 17:43:11\"),\n  address: \"1234 Incomplete St., Princeton, New Jersey\",\n)")
+    expect(statement).to eq("User.create(\n  id: 14,\n  name: \"Hide My Name\",\n  email: \"kurt@incompleteness.com\",\n  created_at: Time.zone.parse(\"2015-01-01 17:43:11\"),\n  updated_at: Time.zone.parse(\"2015-01-01 17:43:11\"),\n  address: \"1234 Incomplete St., Princeton, New Jersey\",\n)")
   end
 end
 

@@ -21,7 +21,7 @@ module Goedel
         "\"#{val}\""
       elsif val.is_a?(ActiveSupport::TimeWithZone)
         time_str = val.utc.strftime("%Y-%m-%d %H:%M:%S")
-        "Time.Zone.parse(\"#{time_str}\")"
+        "Time.zone.parse(\"#{time_str}\")"
       elsif val.is_a?(Time)
         time_int = val.to_i
         "Time.at(#{time_int})"

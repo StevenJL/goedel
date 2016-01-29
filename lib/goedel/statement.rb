@@ -12,6 +12,7 @@ module Goedel
     def generate
       output_array = [model_create]
       model_attributes.each do |prop, val|
+        next unless val
         output_array << "#{" "*indent}#{attr_line(prop, val)}"
       end
       output_array << ")"
