@@ -1,10 +1,11 @@
 module Goedel
   class Statement
-    attr_reader :object, :indent, :force_attributes
+    attr_reader :object, :indent, :force_attributes, :override_attributes
 
     def initialize(object, options={})
       @object = object
       @force_attributes = options[:force_attributes] || []
+      @override_attributes = options[:override_attributes] || {}
       @indent = 2
     end
 
@@ -30,7 +31,7 @@ module Goedel
         val = object.send(attr) 
         obj_attr[prop] = val
       end
-      obj_attr
+      obj_attr.merge(override_attributes)
     end
 
     def model_create
