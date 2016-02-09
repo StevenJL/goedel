@@ -10,19 +10,19 @@ module Goedel
     end
 
     def generate
-      output_array = [model_create]
+      output_array = [model_instantiate]
       model_attributes.each do |prop, val|
         next unless val
         output_array << "#{" "*indent}#{attr_line(prop, val)}"
       end
-      output_array << ")"
+      output_array << "#{instance_name}.save"
       output_array.join("\n")
     end
 
     private
 
     def attr_line(prop, val)
-      Goedel::Line.new(prop, val).generate
+      Goedel::Line.new(instance_name, prop, val).generate
     end
     
     def model_attributes
@@ -35,9 +35,18 @@ module Goedel
       obj_attr.merge(override_attributes)
     end
 
-    def model_create
-      "#{object.class}.create("
+    def model_instantiate
+      "#{instance_name} = #{class_name}.new"
+    end
+
+    def class_name
+      object.class.to_s 
+    end
+
+    def instance_name
+      "my_#{object.class.to_s.downcase}"
     end
   end
 end
+
 

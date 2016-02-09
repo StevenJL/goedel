@@ -3,20 +3,21 @@ require "bigdecimal"
 
 module Goedel
   class Line
-    attr_reader :prop, :val
+    attr_reader :prop, :val, :instance_name
 
-    def initialize(prop, val)
+    def initialize(instance_name, prop, val)
+      @instance_name = instance_name
       @prop = prop 
       @val = val
     end
 
     def generate
-      "#{prop}: #{present(val)},"
+      "#{instance_name}.#{prop} = #{classify(val)}"
     end
 
     private
 
-    def present(val)
+    def classify(val)
       if val.is_a?(String)
         "\"#{val}\""
       elsif val.is_a?(ActiveSupport::TimeWithZone)

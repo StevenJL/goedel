@@ -35,16 +35,15 @@ pp last_user.attributes
 Goedel.goedel(last_user)
 
 # will print out activerecord create statement which can create the data object
-User.create(
-  created_at: Time.zone.parse("2015-22-12 08:34:14"),
-  updated_at: Time.zone.parse("2015-22-12 08:34:14"),
-  id: 123,
-  email: "goedel@incompleteness.com",
-  name: "Goedel"
-)
+my_user = User.new
+  my_user.created_at = Time.zone.parse("2015-22-12 08:34:14")
+  my_user.updated_at = Time.zone.parse("2015-22-12 08:34:14")
+  my_user.id = 123
+  my_user.email = "goedel@incompleteness.com"
+  my_user.name = "Goedel"
+my_user.save
 
 # and then return it as a string
-=> "User.create(\n  id: 123,\n  email: \"goedel@incompleteness.com\",\n  name: \"Goedel\", \n  address: \"123 Recurse St. Princeton, New Jersey\""
 
 # Not all a record's attributes will show up sometimes, especially those delegated through associations.
 # You can force these attributes to show up
@@ -55,14 +54,15 @@ User.create(
 
 Goedel.goedel(last_user, force_attributes: [:address])
 
-User.create(
-  created_at: Time.zone.parse("2015-22-12 08:34:14"),
-  updated_at: Time.zone.parse("2015-22-12 08:34:14"),
-  id: 123,
-  email: "goedel@incompleteness.com",
-  name: "Goedel", 
-  address: "123 Incomplete St. Princeton, New Jersey"
-)
+my_user = User.new
+  my_user.created_at = Time.zone.parse("2015-22-12 08:34:14")
+  my_user.updated_at = Time.zone.parse("2015-22-12 08:34:14")
+  my_user.id = 123
+  my_user.email = "goedel@incompleteness.com"
+  my_user.name = "Goedel"
+  my_user.address = "123 Incomplete St. Princeton, New Jersey"
+my_user.save
+
 
 # You can also override attribute values
 

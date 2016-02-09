@@ -28,17 +28,18 @@ describe Goedel::Statement do
 
   it "generates create statement for active record object" do
     statement = Goedel::Statement.new(@user).generate
-    expect(statement).to eq("User.create(\n  id: 14,\n  name: \"kurt\",\n  email: \"kurt@incompleteness.com\",\n  created_at: Time.zone.parse(\"2015-01-01 17:43:11\"),\n  updated_at: Time.zone.parse(\"2015-01-01 17:43:11\"),\n)")
+    expect(statement).to eq("my_user = User.new\n  my_user.id = 14\n  my_user.name = \"kurt\"\n  my_user.email = \"kurt@incompleteness.com\"\n  my_user.created_at = Time.zone.parse(\"2015-01-01 17:43:11\")\n  my_user.updated_at = Time.zone.parse(\"2015-01-01 17:43:11\")\nmy_user.save")
   end
 
   it "generates create statement for active record with force attribute option" do
     statement = Goedel::Statement.new(@user, force_attributes: [:address]).generate
-    expect(statement).to eq("User.create(\n  id: 14,\n  name: \"kurt\",\n  email: \"kurt@incompleteness.com\",\n  created_at: Time.zone.parse(\"2015-01-01 17:43:11\"),\n  updated_at: Time.zone.parse(\"2015-01-01 17:43:11\"),\n  address: \"1234 Incomplete St., Princeton, New Jersey\",\n)")
+    expect(statement).to eq("my_user = User.new\n  my_user.id = 14\n  my_user.name = \"kurt\"\n  my_user.email = \"kurt@incompleteness.com\"\n  my_user.created_at = Time.zone.parse(\"2015-01-01 17:43:11\")\n  my_user.updated_at = Time.zone.parse(\"2015-01-01 17:43:11\")\n  my_user.address = \"1234 Incomplete St., Princeton, New Jersey\"\nmy_user.save")
   end
 
   it "generates create state for active record with override attributes option" do
     statement = Goedel::Statement.new(@user, force_attributes: [:address], override_attributes: {"name" => "Hide My Name"}).generate
-    expect(statement).to eq("User.create(\n  id: 14,\n  name: \"Hide My Name\",\n  email: \"kurt@incompleteness.com\",\n  created_at: Time.zone.parse(\"2015-01-01 17:43:11\"),\n  updated_at: Time.zone.parse(\"2015-01-01 17:43:11\"),\n  address: \"1234 Incomplete St., Princeton, New Jersey\",\n)")
+    expect(statement).to eq("my_user = User.new\n  my_user.id = 14\n  my_user.name = \"Hide My Name\"\n  my_user.email = \"kurt@incompleteness.com\"\n  my_user.created_at = Time.zone.parse(\"2015-01-01 17:43:11\")\n  my_user.updated_at = Time.zone.parse(\"2015-01-01 17:43:11\")\n  my_user.address = \"1234 Incomplete St., Princeton, New Jersey\"\nmy_user.save")
   end
 end
+
 
